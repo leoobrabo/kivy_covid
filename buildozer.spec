@@ -36,7 +36,7 @@ version = 3.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==master,kivymd,covid,requests,pydantic,os,certifi
+requirements = python3,kivy==2.0.0,https://github.com/kivymd/KivyMD/archive/master.zip,sdl2_ttf==2.0.15,pillow
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -49,10 +49,10 @@ requirements = python3,kivy==master,kivymd,covid,requests,pydantic,os,certifi
 #presplash.filename = presplash.png
 
 # (str) Icon of the application
-#icon.filename = icon.png
+icon.filename = icon.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
-orientation = portrait
+orientation = all
 
 # (list) List of service to declare
 #services = NAME:ENTRYPOINT_TO_PY,NAME2:ENTRYPOINT2_TO_PY
@@ -62,7 +62,7 @@ orientation = portrait
 #
 
 #
-# author = Leonardo Motta © Copyright Info
+# author = Leonardo Motta ï¿½ Copyright Info
 
 # change the major version of python used by the app
 osx.python_version = 3
@@ -75,7 +75,7 @@ osx.kivy_version = 1.9.1
 #
 
 # (bool) Indicate if the application should be fullscreen or not
-fullscreen = 0
+fullscreen = 1
 
 # (string) Presplash background color (for new android toolchain)
 # Supported formats are: #RRGGBB #AARRGGBB or one of the following names:

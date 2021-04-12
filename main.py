@@ -3,19 +3,13 @@ from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager
 from kivy.core.window import Window
 from kivymd.uix.screen import MDScreen
-from covid import Covid
 from kivymd.uix.button import MDRoundFlatIconButton
 from kivymd.uix.behaviors import FocusBehavior
-import certifi
-import os
-import pydantic
-import requests
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
 
-os.environ['SSL_CERT_FILE'] = certifi.where()
+from kivy.network.urlrequest import UrlRequest
 
-#Window.size = (300, 500)
+
+Window.size = (300, 500)
 screen_helper = '''
 
 MDBoxLayout:
@@ -47,69 +41,72 @@ MDBoxLayout:
         icon: "radioactive"
     MDLabel:
         halign: 'center'
-        pos_hint: {'center_y':0.75}
-        text: "Numero de Casos"  
-        font_style: 'H4'
-        text_color: {1, 0.2, 0.3, 1}
-        theme_text_color: 'Custom'
+        pos_hint: {'center_y':0.8}
+        text: "Numero de Casos Brasil"  
+        font_style: 'Subtitle2'
+        
     MDRectangleFlatIconButton:
-        pos_hint: {"x": .1, "center_y": .6} 
+        pos_hint: {"x": .1, "center_y": .7} 
         icon: "heart-off-outline"
         text: "Mortes"       
-        size_hint_x: .43
-        size_hint_y: .09 
+        size_hint_x: .37
+        size_hint_y: .08 
     MDLabel:
         id: mortes
         size_hint_x: .43
         size_hint_y: .09
         text: "0"  
-        pos_hint: {"x": .65, "center_y": .6}      
+        pos_hint: {"x": .65, "center_y": .7}      
         font_style:'Subtitle1'         
     MDRectangleFlatIconButton:
-        size_hint_x: .43
-        size_hint_y: .09
-        pos_hint: {"x": .1, "center_y": .5} 
+        size_hint_x: .37
+        size_hint_y: .08
+        pos_hint: {"x": .1, "center_y": .6} 
         icon: "heart-pulse"
         text: "Ativos"      
     MDLabel:
         id: ativos
         text: "0"   
-        pos_hint: {"x": .65, "center_y": .5}  
+        pos_hint: {"x": .65, "center_y": .6}  
         size_hint_x: .43
         size_hint_y: .09                  
     MDRectangleFlatIconButton:
-        pos_hint: {"x": .1, "center_y": .4} 
+        pos_hint: {"x": .1, "center_y": .5} 
         icon: "heart-broken-outline"
         text: "Confirmados"  
-        size_hint_x: .43
-        size_hint_y: .09
+        size_hint_x: .37
+        size_hint_y: .08
     MDLabel:
         id: confirmados
         text: "0"  
-        pos_hint: {"x": .65, "center_y": .4}  
+        pos_hint: {"x": .65, "center_y": .5}  
         size_hint_x: .43
-        size_hint_y: .09       
+        size_hint_y: .09     
     MDRectangleFlatIconButton:
-        pos_hint: {"x": .1, "center_y": .3} 
+        pos_hint: {"x": .1, "center_y": .4} 
         icon: "heart-plus-outline"
         text: "Recuperados" 
-        size_hint_x: .43
-        size_hint_y: .09
+        size_hint_x: .37
+        size_hint_y: .08
     MDLabel:
         id: recuperados    
         text: "0"
-        pos_hint: {"x": .65, "center_y": .3}  
+        pos_hint: {"x": .65, "center_y": .4}  
         size_hint_x: .43
         size_hint_y: .09                 
     ButtonFocus:
         icon: "arrow-left"
         text: 'Voltar'
         pos_hint: {'center_x': 0.3, 'center_y': 0.2}
+        size_hint_x: .35
+        size_hint_y: .08 
         on_press:  root.manager.current = 'menu'       
     ButtonFocus:
         icon: "sync-circle"
         text: 'Atualizar'
         pos_hint: {'center_x': 0.7, 'center_y': 0.2}
+        size_hint_x: .35
+        size_hint_y: .08  
         on_release: root.Calculo()    
         
 <UploadScreen>:
@@ -135,42 +132,22 @@ class MenuScreen(MDScreen):
 class ProfileScreen(MDScreen):
 
     def Calculo(self):
-        session = requests.Session()
-        retry = Retry(connect=3, backoff_factor=0.5)
-        adapter = HTTPAdapter(max_retries=retry)
-        session.mount('http://', adapter)
-        session.mount('https://', adapter)
 
-        try:
+        search_url = "https://covid19-brazil-api.vercel.app/api/report/v1/brazil"
 
-            covid = Covid()
-            covid_brasil = covid.get_status_by_country_id(24)
-            ativos = covid_brasil['active']
-            confirmados = covid_brasil['confirmed']
-            mortes = covid_brasil['deaths']
-            recuperados = covid_brasil['recovered']
-            self.ids.ativos.text = str(ativos)
-            self.ids.confirmados.text = str(confirmados)
-            self.ids.mortes.text = str(mortes)
-            self.ids.recuperados.text = str(recuperados)
+        self.request = UrlRequest(search_url)
+        self.request.wait()
+        print(self.request)
+        dados = self.request.result['data']
+        ativos = dados['cases']
+        confirmados = dados['confirmed']
+        mortes = dados['deaths']
+        recuperados = dados['recovered']
 
-        except requests.ConnectionError as e:
-            print("OOPS!! Connection Error. Make sure you are connected to Internet. Technical Details given below.\n")
-            print(str(e))
-            # renewIPadress()
-
-        except requests.Timeout as e:
-            print("OOPS!! Timeout Error")
-            print(str(e))
-            # renewIPadress()
-
-        except requests.RequestException as e:
-            print("OOPS!! General Error")
-            print(str(e))
-            # renewIPadress()
-
-        except KeyboardInterrupt:
-            print("Someone closed the program")
+        self.ids.ativos.text = str(ativos)
+        self.ids.confirmados.text = str(confirmados)
+        self.ids.mortes.text = str(mortes)
+        self.ids.recuperados.text = str(recuperados)
 
 
 class UploadScreen(MDScreen):
