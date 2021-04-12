@@ -3,12 +3,11 @@ from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager
 from kivy.core.window import Window
 from kivymd.uix.screen import MDScreen
-from covid import Covid
+
 from kivymd.uix.button import MDRoundFlatIconButton
 from kivymd.uix.behaviors import FocusBehavior
 import certifi
-import os
-import pydantic
+
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
