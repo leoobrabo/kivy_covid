@@ -1,26 +1,16 @@
 from kivy.lang.builder import Builder
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager
-from kivy.core.window import Window
+#from kivy.core.window import Window
 from kivymd.uix.screen import MDScreen
-<<<<<<< HEAD
 from kivymd.uix.button import MDRoundFlatIconButton
 from kivymd.uix.behaviors import FocusBehavior
-=======
-
 from kivymd.uix.button import MDRoundFlatIconButton
 from kivymd.uix.behaviors import FocusBehavior
-import certifi
-
-import requests
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
->>>>>>> 34243d092468ec0a9eaa0396e20f8f7ef2351e18
-
 from kivy.network.urlrequest import UrlRequest
 
 
-Window.size = (300, 500)
+#Window.size = (300, 500)
 screen_helper = '''
 
 MDBoxLayout:
