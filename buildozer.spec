@@ -1,13 +1,13 @@
 [app]
 
 # (str) Title of your application
-title = Dados Covid
+title = Dados Covid-19
 
 # (str) Package name
 package.name = dadoscovidapp
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = org.covidapp
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -46,7 +46,7 @@ requirements = python3,kivy==2.0.0,https://github.com/kivymd/KivyMD/archive/mast
 #garden_requirements =
 
 # (str) Presplash of the application
-#presplash.filename = presplash.png
+presplash.filename = presplash.png
 
 # (str) Icon of the application
 icon.filename = icon.png
@@ -75,7 +75,7 @@ osx.kivy_version = 1.9.1
 #
 
 # (bool) Indicate if the application should be fullscreen or not
-fullscreen = 1
+fullscreen = 0
 
 # (string) Presplash background color (for new android toolchain)
 # Supported formats are: #RRGGBB #AARRGGBB or one of the following names:
