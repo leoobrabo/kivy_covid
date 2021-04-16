@@ -1,7 +1,0 @@
-keytool -genkey -v -keystore "/home/leonardo/Documentos/kivy_covid/covidkey" -alias covidkey -storepass sistemas2777 -keypass sistemas2777 -keyalg RSA -validity 14000
-
-keytool -importkeystore -srckeystore /home/leonardo/Documentos/kivy_github/githubkey -destkeystore /home/leonardo/Documentos/kivy_github/githubkey -deststoretype pkcs12
-
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1  -signedjar /home/leonardo/Documentos/kivy_covid/apk_assinada/dadosgithubapp-3.0-armeabi-v7a-release-signed.apk -storepass sistemas2777 -keypass sistemas2777 -keystore /home/leonardo/Documentos/kivy_covid/covidkey  /home/leonardo/Documentos/kivy_covid/bin/dadoscovidapp-3.0-armeabi-v7a-release-unsigned.apk covidkey
-
-zipalign -v 4 /home/leonardo/Documentos/kivy_covid/apk_assinada/dadosgithubapp-3.0-armeabi-v7a-release-signed.apk /home/leonardo/Documentos/kivy_covid/apk_alinhado/dadoscovidapp-3.0.apk
